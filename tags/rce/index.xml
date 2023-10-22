@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>RCE on Pachinko&#39;s Blog</title>
-    <link>https://pachinko2821.github.io/tags/rce/</link>
+    <link>/tags/rce/</link>
     <description>Recent content in RCE on Pachinko&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Prajyot Chemburkar</copyright>
-    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="https://pachinko2821.github.io/tags/rce/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="/tags/rce/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Plight of Unsanitized Function Calls</title>
-      <link>https://pachinko2821.github.io/posts/plight-of-unsanitized-function-calls/</link>
+      <link>/posts/plight-of-unsanitized-function-calls/</link>
       <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
       
-      <guid>https://pachinko2821.github.io/posts/plight-of-unsanitized-function-calls/</guid>
+      <guid>/posts/plight-of-unsanitized-function-calls/</guid>
       <description>Introduction Tutanota is the world&amp;rsquo;s most secure email service, easy to use and private by design. You get fully encrypted calendars and contacts with all our personal and business email accounts. ~The Tutanota Website
 Debugging Setup Tutanota fortunately is open source. So all you have to do is download the application source, spin up vscode or any IDE of your liking and read away. Or you can use grep.app to look at its code, which is what I did in this case.</description>
       <content>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;

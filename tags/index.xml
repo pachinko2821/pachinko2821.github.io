@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Pachinko&#39;s Blog</title>
-    <link>https://pachinko2821.github.io/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Pachinko&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Prajyot Chemburkar</copyright>
-    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="https://pachinko2821.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Electron</title>
-      <link>https://pachinko2821.github.io/tags/electron/</link>
+      <link>/tags/electron/</link>
       <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
       
-      <guid>https://pachinko2821.github.io/tags/electron/</guid>
+      <guid>/tags/electron/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>openExternal</title>
-      <link>https://pachinko2821.github.io/tags/openexternal/</link>
+      <link>/tags/openexternal/</link>
       <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
       
-      <guid>https://pachinko2821.github.io/tags/openexternal/</guid>
+      <guid>/tags/openexternal/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>RCE</title>
-      <link>https://pachinko2821.github.io/tags/rce/</link>
+      <link>/tags/rce/</link>
       <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
       
-      <guid>https://pachinko2821.github.io/tags/rce/</guid>
+      <guid>/tags/rce/</guid>
       <description></description>
       <content></content>
     </item>
