@@ -5,25 +5,25 @@
     <link>/tags/</link>
     <description>Recent content in Tags on Pachinko&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>en-us</language>
     <copyright>Prajyot Chemburkar</copyright>
     <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CVE</title>
+      <link>/tags/cve/</link>
+      <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
+      
+      <guid>/tags/cve/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>Electron</title>
       <link>/tags/electron/</link>
       <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
       
       <guid>/tags/electron/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>openExternal</title>
-      <link>/tags/openexternal/</link>
-      <pubDate>Sun, 22 Oct 2023 21:28:41 +0530</pubDate>
-      
-      <guid>/tags/openexternal/</guid>
       <description></description>
       <content></content>
     </item>

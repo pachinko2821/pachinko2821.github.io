@@ -1,36 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Pachinko&#39;s Blog</title>
-    <link>/</link>
-    <description>Recent content on Pachinko&#39;s Blog</description>
+    <title>CVE on Pachinko&#39;s Blog</title>
+    <link>/tags/cve/</link>
+    <description>Recent content in CVE on Pachinko&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Prajyot Chemburkar</copyright>
-    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Tue, 28 Nov 2023 21:53:52 +0530</pubDate>
-      
-      <guid>/about/</guid>
-      <description>All you need to know  Presently working with the Web Security team at Payatu Security Consulting. Involves securing client applications, and some opensource research. The usual stuff. Currently have 1 year of experience with information security.  Certifications  Burpsuite Certified Practitioner - 0AC1668776BB453B  CVE&amp;rsquo;s  CVE-2023-46116 (Not released)  </description>
-      <content>&lt;h1 id=&#34;all-you-need-to-know&#34;&gt;All you need to know&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;Presently working with the &lt;a href=&#34;https://payatu.com/web-security-testing/&#34;&gt;Web Security&lt;/a&gt; team at Payatu Security Consulting. Involves securing client applications, and some opensource research. The usual stuff.&lt;/li&gt;
-&lt;li&gt;Currently have 1 year of experience with information security.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;certifications&#34;&gt;Certifications&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;Burpsuite Certified Practitioner - &lt;a href=&#34;https://portswigger.net/web-security/e/c/0ac1668776bb453b&#34;&gt;0AC1668776BB453B&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;cves&#34;&gt;CVE&amp;rsquo;s&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;CVE-2023-46116 (Not released)&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    </item>
-    
+    <lastBuildDate>Sun, 22 Oct 2023 21:28:41 +0530</lastBuildDate><atom:link href="/tags/cve/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Plight of Unsanitized Function Calls</title>
       <link>/posts/plight-of-unsanitized-function-calls/</link>

@@ -2,10 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/tags/electron/</loc>
+    <loc>/about/</loc>
+    <lastmod>2023-11-28T21:53:52+05:30</lastmod>
+  </url><url>
+    <loc>/tags/cve/</loc>
     <lastmod>2023-10-22T21:28:41+05:30</lastmod>
   </url><url>
-    <loc>/tags/openexternal/</loc>
+    <loc>/tags/electron/</loc>
     <lastmod>2023-10-22T21:28:41+05:30</lastmod>
   </url><url>
     <loc>/</loc>
