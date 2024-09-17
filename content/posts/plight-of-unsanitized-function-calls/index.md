@@ -6,13 +6,17 @@ cover:
     image: "images/cover.png" 
     alt: "some image that didn't load"
     caption: "(relevant xkcd - exploits of a mom)"
-    relative: false
+    responsiveImages: true
 tags: ["Electron", "CVE", "RCE"]
 keywords: ["electron", "code execution"]
 description: "Been researching electron app security recently, decided to look at Tutanota."
 showFullContent: true
 readingTime: true
 draft: false
+showToc: true
+tocOpen: true
+showReadingTime: true
+hideSummary: true
 ---
 
 # Introduction

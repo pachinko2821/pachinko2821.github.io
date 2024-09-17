@@ -12,7 +12,13 @@ keywords: ["github", "automation"]
 description: "What can you do with GitHub-hosted runners?"
 showFullContent: true
 readingTime: true
+showFullContent: true
+readingTime: true
 draft: false
+showToc: true
+tocOpen: true
+showReadingTime: true
+hideSummary: true
 ---
 # Introduction
 
