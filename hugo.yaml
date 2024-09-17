@@ -14,10 +14,6 @@ minify:
   minifyOutput: true
 
 Params:
-  hideFooter: true
-  comments: true
-
-params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Pachinko's Blog
   description: "Pachinko's Blog"
@@ -27,19 +23,21 @@ params:
   defaultTheme: auto # dark, light
   disableThemeToggle: false
   hideSummary: true
-  
   ShowReadingTime: true
   ShowShareButtons: false
-  ShowPostNavLinks: true
+  ShowPostNavLinks: false
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
   ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  UseHugoToc: false
-  disableSpecialistPost: false
+  ShowRssButtonInSectionTermList: false
+  disableSpecial1stPost: true
   disableScrollToTop: false
-  comments: false
   hidemeta: false
+  hideFooter: true
+  comments: false
+  
+  cover:
+    relative: true
 
   assets:
     # disableHLJS: true # to disable highlight.js
@@ -57,13 +55,13 @@ params:
 
   # profile-mode
   profileMode:
-    enabled: false # needs to be explicitly set
+    enabled: true # needs to be explicitly set
     title:  Pachinko's Blog
     subtitle: "Welcome?"
-    imageUrl: "<img location>"
+    imageUrl: "/bart.jpg"
     imageWidth: 120
     imageHeight: 120
-    imageTitle: nothing here
+    imageTitle: "Oh hey, that's Bart!"
     buttons:
       - name: Posts
         url: posts
@@ -71,26 +69,19 @@ params:
         url: about
 
   # home-info mode
-  homeInfoParams:
-    Title: "Hi there \U0001F44B"
-    Content: Welcome to my blog
-
   socialIcons:
     - name: github
       url: "https://github.com/pachinko2821"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/prajyot-chemburkar"
 
-  analytics:
-    google:
-      SiteVerificationTag: "XYZabc"
-    bing:
-      SiteVerificationTag: "XYZabc"
-    yandex:
-      SiteVerificationTag: "XYZabc"
-
-  cover:
-    hidden: false # hide everywhere but not in structured data
-    hiddenInList: false # hide on list pages and home
-    hiddenInSingle: false # hide on single page
+  # analytics:
+  #   google:
+  #     SiteVerificationTag: "XYZabc"
+  #   bing:
+  #     SiteVerificationTag: "XYZabc"
+  #   yandex:
+  #     SiteVerificationTag: "XYZabc"
 
   # editPost:
   #   URL: "https://github.com/<path_to_repo>/content"
@@ -108,6 +99,7 @@ params:
     minMatchCharLength: 0
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
+
 menu:
   main:
     - identifier: about
