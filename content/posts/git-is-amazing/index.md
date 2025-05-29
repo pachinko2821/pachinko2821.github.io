@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
 And the test case for the above program. This will become much more relevant later.
 ```python
-rom app import floorSqrt
+from app import floorSqrt
 
 def test_floorSqrt():
     assert floorSqrt(16) == 4, "Test failed, floorSqrt(16)"
