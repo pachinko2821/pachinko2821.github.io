@@ -3,7 +3,7 @@ date: '2025-05-29T19:43:12+05:30'
 draft: false
 title: 'Git Is Amazing: Git-Bisect'
 cover:
-    image: "images/cover.jpg" 
+    image: "images/cover.gif" 
     alt: "some image that didn't load"
     caption: "binary search is cool"
     responsiveImages: false
@@ -21,16 +21,17 @@ hideSummary: true
 ---
 
 *Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. Git is easy to learn and has a tiny footprint with lightning fast performance. It outclasses SCM tools like Subversion, CVS, Perforce, and ClearCase with features like cheap local branching, convenient staging areas, and multiple workflows.*
+
 ~[Git's Official Website](https://git-scm.com)
 
-If you are a developer, it is impossible to have not heard for Git. It is the most popular version control system, with a market share of ~80% according to [OpenHub](https://openhub.net/repositories/compare). The most popular software hosting solutions (GitHub, GitLab, BitBucket) use Git as the primary version control.
+If you are a developer, it is impossible to have not heard of Git. It is the most popular version control system, with a market share of ~80% according to [OpenHub](https://openhub.net/repositories/compare).
 
 # Git Bisect
 I've been looking at Git for the past few months for *reasons* and this one feature made me realise how well thought Git really is.
 
-[Git-Bisect](https://git-scm.com/docs/git-bisect) is a feature that uses binary search to find the commit that introduced a bug.
+[Git-Bisect](https://git-scm.com/docs/git-bisect) is a feature that uses binary search to find the first commit that introduced a bug.
 
-You start with marking the bad commit, and the last known good commit where your feature works. Git automatically starts checking out commits between the two commits you specified. You can now test your feature in every checkout and mark that commit as bad or good, and in the end, git will point to the exact commit that introduced your bug.
+You start with marking the bad commit, and the last known good commit where your feature works. Git automatically starts checking out commits between the two commits you specified. You can now test your feature in every checkout and mark that commit as bad or good, and in the end, Git will point to the exact commit that introduced your bug.
 
 Let's take an easy example. The following code simply calculates the closest integer candidate for the square root of a given number.
 ```python
@@ -55,7 +56,7 @@ if __name__ == "__main__":
     print(floorSqrt(n))
 ```
 
-And the test case for the above program
+And the test case for the above program. This will become much more relevant later.
 ```python
 rom app import floorSqrt
 
@@ -70,7 +71,9 @@ if __name__ == "__main__":
     print("Tests Passed")
 ```
 
-I've added this code into a git repository over 20 commits. One of these commits introduces a bug that does not return the right integer. Set the good and bad commits:
+I've added this code into a git repository over 20 commits. One of these commits introduces a bug that does not return the right integer.
+
+Let's start bisecting. Set the good and bad commits:
 ```bash
 # Start bisecting
 $ git bisect start
@@ -95,7 +98,7 @@ Tests Passed
 # Tests passed. So mark the commit as good
 $ git bisect good
 
-# Test the commit
+# Git automatically checks out to the next commit. Test the commit
 $ python3 app.test.py
 Traceback (most recent call last):
   File "/home/pachinko/Documents/Github/bisect-test/app.test.py", line 11, in <module>
@@ -108,7 +111,6 @@ AssertionError: Test failed, floorSqrt(16)
 
 # Tests failed. So mark the commit as bad.
 $ git bisect bad
-Bisecting: 0 revisions left to test after this (roughly 0 steps)
 ```
 
 Continue to do this, until git-bisect arrives at the exact commit that introduced your bug.
