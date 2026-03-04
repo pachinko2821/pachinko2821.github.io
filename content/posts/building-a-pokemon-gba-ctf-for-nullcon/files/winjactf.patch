@@ -1,0 +1,305 @@
+diff --git a/data/maps/CeruleanCity_BikeShop/scripts.inc b/data/maps/CeruleanCity_BikeShop/scripts.inc
+index 9e8e0001f..0b1fa3166 100644
+--- a/data/maps/CeruleanCity_BikeShop/scripts.inc
++++ b/data/maps/CeruleanCity_BikeShop/scripts.inc
+@@ -4,6 +4,8 @@ CeruleanCity_BikeShop_MapScripts::
+ CeruleanCity_BikeShop_EventScript_Clerk::
+ 	lock
+ 	faceplayer
++	goto_if_set FLAG_GOT_FLAG, CeruleanCity_BikeShop_EventScript_AlreadyGotFlag
++	goto_if_set FLAG_GOT_FLAG_KEY, CeruleanCity_BikeShop_EventScript_ExchangeFlagKey
+ 	goto_if_set FLAG_GOT_BICYCLE, CeruleanCity_BikeShop_EventScript_AlreadyGotBicycle
+ 	goto_if_set FLAG_GOT_BIKE_VOUCHER, CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher
+ 	showmoneybox 0, 0
+@@ -38,6 +40,20 @@ CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher::
+ 	release
+ 	end
+ 
++CeruleanCity_BikeShop_EventScript_ExchangeFlagKey::
++	msgbox CeruleanCity_BikeShop_Text_OhFlagKeyHereYouGo
++	msgreceiveditem CeruleanCity_BikeShop_Text_ExchangedKeyForFlag, ITEM_FLAG, 1, MUS_OBTAIN_KEY_ITEM
++	additem ITEM_FLAG
++	msgbox CeruleanCity_BikeShop_Text_ThankYouComeAgain
++	setflag FLAG_GOT_FLAG
++	release
++	end
++
++CeruleanCity_BikeShop_EventScript_AlreadyGotFlag::
++	msgbox CeruleanCity_BikeShop_Text_YouCanDecodeTheFlag
++	release
++	end
++
+ CeruleanCity_BikeShop_EventScript_AlreadyGotBicycle::
+ 	msgbox CeruleanCity_BikeShop_Text_HowDoYouLikeNewBicycle
+ 	release
+diff --git a/data/maps/CeruleanCity_BikeShop/text.inc b/data/maps/CeruleanCity_BikeShop/text.inc
+index ab6b1467e..1ece33411 100644
+--- a/data/maps/CeruleanCity_BikeShop/text.inc
++++ b/data/maps/CeruleanCity_BikeShop/text.inc
+@@ -14,14 +14,31 @@ CeruleanCity_BikeShop_Text_OhBikeVoucherHereYouGo::
+     .string "Okay!\n"
+     .string "Here you go!$"
+ 
++CeruleanCity_BikeShop_Text_OhFlagKeyHereYouGo::
++    .string "Oh, that's…\p"
++    .string "A FLAG KEY!\p"
++    .string "Okay!\n"
++    .string "Here you go!$"
++
+ CeruleanCity_BikeShop_Text_ExchangedVoucherForBicycle::
+     .string "{PLAYER} exchanged the\n"
+     .string "BIKE VOUCHER for a BICYCLE.$"
+ 
++CeruleanCity_BikeShop_Text_ExchangedKeyForFlag::
++    .string "{PLAYER} exchanged the\n"
++    .string "FLAG KEY for a FLAG.\p"
++    .string "You can decode this with\n"
++    .string "the FLAG KEY.\p"
++    .string "$"
++
+ CeruleanCity_BikeShop_Text_ThankYouComeAgain::
+     .string "Thank you!\n"
+     .string "Come back again sometime!$"
+ 
++CeruleanCity_BikeShop_Text_YouCanDecodeTheFlag::
++    .string "Have you decoded the flag yet?\n"
++    .string "Check out CyberChef if you need help!$"
++
+ CeruleanCity_BikeShop_Text_HowDoYouLikeNewBicycle::
+     .string "How do you like your new BICYCLE?\n"
+     .string "Do you like how it rides?\p"
+diff --git a/data/maps/PalletTown_PlayersHouse_1F/scripts.inc b/data/maps/PalletTown_PlayersHouse_1F/scripts.inc
+index 889472d3c..da59cdffa 100644
+--- a/data/maps/PalletTown_PlayersHouse_1F/scripts.inc
++++ b/data/maps/PalletTown_PlayersHouse_1F/scripts.inc
+@@ -4,6 +4,7 @@ PalletTown_PlayersHouse_1F_MapScripts::
+ PalletTown_PlayersHouse_1F_EventScript_Mom::
+ 	lock
+ 	faceplayer
++	goto_if_set FLAG_GOT_FLAG_KEY, PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYou
+ 	goto_if_set FLAG_BEAT_RIVAL_IN_OAKS_LAB, PalletTown_PlayersHouse_1F_EventScript_MomHeal
+ 	checkplayergender
+ 	call_if_eq VAR_RESULT, MALE, PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouMale
+@@ -14,6 +15,21 @@ PalletTown_PlayersHouse_1F_EventScript_Mom::
+ 	release
+ 	end
+ 
++PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYou::
++	checkplayergender
++	call_if_eq VAR_RESULT, MALE, PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouMaleGotKey
++	call_if_eq VAR_RESULT, FEMALE, PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouFemaleGotKey
++	releaseall
++	end
++
++PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouMaleGotKey::
++	msgbox PalletTown_PlayersHouse_1F_Text_AllBoysLeaveGotKey
++	return
++
++PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouFemaleGotKey::
++	msgbox PalletTown_PlayersHouse_1F_Text_AllGirlsLeaveGotKey
++	return
++
+ PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouMale::
+ 	msgbox PalletTown_PlayersHouse_1F_Text_AllBoysLeaveOakLookingForYou
+ 	return
+@@ -24,6 +40,8 @@ PalletTown_PlayersHouse_1F_EventScript_MomOakLookingForYouFemale::
+ 
+ PalletTown_PlayersHouse_1F_EventScript_MomHeal::
+ 	msgbox PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest
++	giveitem ITEM_FLAG_KEY, 1
++	setflag FLAG_GOT_FLAG_KEY
+ 	closemessage
+ 	call EventScript_OutOfCenterPartyHeal
+ 	msgbox PalletTown_PlayersHouse_1F_Text_LookingGreatTakeCare
+diff --git a/data/maps/PalletTown_PlayersHouse_1F/text.inc b/data/maps/PalletTown_PlayersHouse_1F/text.inc
+index 6b339b46c..67bf6e784 100644
+--- a/data/maps/PalletTown_PlayersHouse_1F/text.inc
++++ b/data/maps/PalletTown_PlayersHouse_1F/text.inc
+@@ -1,3 +1,17 @@
++PalletTown_PlayersHouse_1F_Text_AllBoysLeaveGotKey::
++    .string "MOM: …Right.\n"
++    .string "All boys leave home someday.\l"
++    .string "It said so on TV.\p"
++    .string "Oh, yes. Don't forget to take that\n"
++    .string "key to the Cerulean City Bike Shop.$"
++
++PalletTown_PlayersHouse_1F_Text_AllGirlsLeaveGotKey::
++    .string "MOM: …Right.\n"
++    .string "All girls dream of traveling.\l"
++    .string "It said so on TV.\p"
++    .string "Oh, yes. Don't forget to take that\n"
++    .string "key to the Cerulean City Bike Shop.$"
++
+ PalletTown_PlayersHouse_1F_Text_AllBoysLeaveOakLookingForYou::
+     .string "MOM: …Right.\n"
+     .string "All boys leave home someday.\l"
+@@ -14,11 +28,16 @@ PalletTown_PlayersHouse_1F_Text_AllGirlsLeaveOakLookingForYou::
+ 
+ PalletTown_PlayersHouse_1F_Text_YouShouldTakeQuickRest::
+     .string "MOM: {PLAYER}!\n"
++    .string "You defeated {RIVAL} at\p"
++    .string "Prof. Oak's lab?!\n"
++    .string "Here, have this...\p"
+     .string "You should take a quick rest.$"
+ 
+ PalletTown_PlayersHouse_1F_Text_LookingGreatTakeCare::
+     .string "MOM: Oh, good! You and your\n"
+     .string "POKéMON are looking great.\l"
++    .string "Take the key to the Bike Shop\p"
++    .string "in Cerulean City!\l"
+     .string "Take care now!$"
+ 
+ PalletTown_PlayersHouse_1F_Text_MovieOnTVFourBoysOnRailroad::
+diff --git a/data/maps/PalletTown_ProfessorOaksLab/scripts.inc b/data/maps/PalletTown_ProfessorOaksLab/scripts.inc
+index 90adf867d..983ec157f 100644
+--- a/data/maps/PalletTown_ProfessorOaksLab/scripts.inc
++++ b/data/maps/PalletTown_ProfessorOaksLab/scripts.inc
+@@ -476,7 +476,6 @@ PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle::
+ 	playse SE_EXIT
+ 	fadedefaultbgm
+ 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 4
+-	setflag FLAG_BEAT_RIVAL_IN_OAKS_LAB
+ 	releaseall
+ 	end
+ 
+diff --git a/include/constants/flags.h b/include/constants/flags.h
+index 24e44dd9e..a27421046 100644
+--- a/include/constants/flags.h
++++ b/include/constants/flags.h
+@@ -704,8 +704,8 @@
+ #define FLAG_RECEIVED_AURORA_TICKET                      0x2A7
+ #define FLAG_RECEIVED_MYSTIC_TICKET                      0x2A8
+ #define FLAG_RECEIVED_OLD_SEA_MAP                        0x2A9
+-#define FLAG_WONDER_CARD_UNUSED_1                        0x2AA
+-#define FLAG_WONDER_CARD_UNUSED_2                        0x2AB
++#define FLAG_GOT_FLAG_KEY                                0x2AA
++#define FLAG_GOT_FLAG                                    0x2AB
+ #define FLAG_WONDER_CARD_UNUSED_3                        0x2AC
+ #define FLAG_WONDER_CARD_UNUSED_4                        0x2AD
+ #define FLAG_WONDER_CARD_UNUSED_5                        0x2AE
+diff --git a/include/constants/items.h b/include/constants/items.h
+index cfc42256c..626e55562 100644
+--- a/include/constants/items.h
++++ b/include/constants/items.h
+@@ -444,8 +444,10 @@
+ #define ITEM_POWDER_JAR 372
+ #define ITEM_RUBY 373
+ #define ITEM_SAPPHIRE 374
++#define ITEM_FLAG_KEY 375
++#define ITEM_FLAG 376
+ 
+-#define ITEMS_COUNT 375
++#define ITEMS_COUNT 377
+ 
+ #define ITEM_TO_BERRY(itemId)(((itemId - FIRST_BERRY_INDEX) + 1))
+ #define MAIL_NONE 0xFF
+diff --git a/src/battle_setup.c b/src/battle_setup.c
+index 6d62084db..8cb92d1ac 100644
+--- a/src/battle_setup.c
++++ b/src/battle_setup.c
+@@ -872,6 +872,11 @@ void SetBattledTrainerFlag(void)
+     FlagSet(GetTrainerAFlag());
+ }
+ 
++void SetBeatRivalTutorialBattleFlag(void)
++{
++    FlagSet(FLAG_BEAT_RIVAL_IN_OAKS_LAB);
++}
++
+ // not used
+ static void SetBattledTrainerFlag2(void)
+ {
+@@ -926,6 +931,7 @@ static void CB2_EndTrainerBattle(void)
+         else
+         {
+             gSpecialVar_Result = FALSE;
++            SetBeatRivalTutorialBattleFlag();
+             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+             SetBattledTrainerFlag();
+             QuestLogEvents_HandleEndTrainerBattle();
+diff --git a/src/data/item_icon_table.h b/src/data/item_icon_table.h
+index a9dd7f0b2..df0a98376 100644
+--- a/src/data/item_icon_table.h
++++ b/src/data/item_icon_table.h
+@@ -398,6 +398,8 @@ static const u32 *const sItemIconTable[ITEMS_COUNT + 1][2] =
+     [ITEM_POWDER_JAR]     = {gItemIcon_PowderJar, gItemIconPalette_PowderJar},
+     [ITEM_RUBY]           = {gItemIcon_Gem, gItemIconPalette_Ruby},
+     [ITEM_SAPPHIRE]       = {gItemIcon_Gem, gItemIconPalette_Sapphire},
++    [ITEM_FLAG_KEY]       = {gItemIcon_SecretKey, gItemIconPalette_SecretKey},
++    [ITEM_FLAG]           = {gItemIcon_TMCase, gItemIconPalette_TMCase},
+     // Return to field arrow
+     [ITEMS_COUNT]         = {gItemIcon_ReturnToFieldArrow, gItemIconPalette_ReturnToFieldArrow},
+ };
+diff --git a/src/data/items.json b/src/data/items.json
+index 0a87abbe8..3a9e9d0a2 100644
+--- a/src/data/items.json
++++ b/src/data/items.json
+@@ -6057,6 +6057,38 @@
+       "battleUsage": 0,
+       "battleUseFunc": "NULL",
+       "secondaryId": 0
++    },
++    {
++      "english": "FLAG KEY",
++      "itemId": "ITEM_FLAG_KEY",
++      "price": 0,
++      "holdEffect": "HOLD_EFFECT_NONE",
++      "holdEffectParam": 0,
++      "description_english": "catch-em-all",
++      "importance": 1,
++      "registrability": 1,
++      "pocket": "POCKET_KEY_ITEMS",
++      "type": "ITEM_TYPE_BAG_MENU",
++      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
++      "battleUsage": 0,
++      "battleUseFunc": "NULL",
++      "secondaryId": 0
++    },
++    {
++      "english": "FLAG",
++      "itemId": "ITEM_FLAG",
++      "price": 0,
++      "holdEffect": "HOLD_EFFECT_NONE",
++      "holdEffectParam": 0,
++      "description_english": "1704150e455f0a0e460418411309\\n1d111b4848054c13410b0208",
++      "importance": 1,
++      "registrability": 1,
++      "pocket": "POCKET_KEY_ITEMS",
++      "type": "ITEM_TYPE_BAG_MENU",
++      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
++      "battleUsage": 0,
++      "battleUseFunc": "NULL",
++      "secondaryId": 0
+     }
+   ]
+ }
+diff --git a/src/item.c b/src/item.c
+index 0587adf7d..dbaab428d 100644
+--- a/src/item.c
++++ b/src/item.c
+@@ -587,7 +587,9 @@ void TrySetObtainedItemQuestLogEvent(u16 itemId)
+      || itemId == ITEM_TEA
+      || itemId == ITEM_POWDER_JAR
+      || itemId == ITEM_RUBY
+-     || itemId == ITEM_SAPPHIRE)
++     || itemId == ITEM_SAPPHIRE
++     || itemId == ITEM_FLAG_KEY
++    )
+     {
+         if (itemId != ITEM_TOWN_MAP || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_PALLET_TOWN_RIVALS_HOUSE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_PALLET_TOWN_RIVALS_HOUSE)))
+         {
+diff --git a/src/mystery_gift.c b/src/mystery_gift.c
+index b02d949f2..3418e70d2 100644
+--- a/src/mystery_gift.c
++++ b/src/mystery_gift.c
+@@ -31,8 +31,8 @@ static const u16 sReceivedGiftFlags[] = {
+     FLAG_RECEIVED_AURORA_TICKET,
+     FLAG_RECEIVED_MYSTIC_TICKET,
+     FLAG_RECEIVED_OLD_SEA_MAP, // Not used until Emerald
+-    FLAG_WONDER_CARD_UNUSED_1,
+-    FLAG_WONDER_CARD_UNUSED_2,
++    FLAG_GOT_FLAG_KEY,
++    FLAG_GOT_FLAG,
+     FLAG_WONDER_CARD_UNUSED_3,
+     FLAG_WONDER_CARD_UNUSED_4,
+     FLAG_WONDER_CARD_UNUSED_5,
