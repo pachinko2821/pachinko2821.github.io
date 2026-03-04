@@ -46,7 +46,7 @@ A full walkthrough of the challenge can be seen here:
 {{< rawhtml >}} 
 
 <video width=100% controls autoplay>
-    <source src="files/pokémon-firered-walkthrough.mkv" type="video/webm">
+    <source src="files/pokemon-firered-walkthrough.mkv" type="video/webm">
     Your browser does not support the video tag.  
 </video>
 
