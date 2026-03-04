@@ -1,7 +1,7 @@
 ---
 date: '2026-03-04T11:05:33+05:30'
 draft: false
-title: 'Building a Pokemon GBA CTF for Nullcon Winja CTF'
+title: 'Building a Pokémon GBA CTF for Nullcon Winja CTF'
 cover:
     image: "images/cover.png" 
     alt: "some image that didn't load"
