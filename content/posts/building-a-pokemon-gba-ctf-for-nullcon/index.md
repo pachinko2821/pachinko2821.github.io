@@ -68,13 +68,12 @@ The repository I used was: https://github.com/pret/pokefirered
 
 This project is a **full decompilation of Pokémon FireRed into C code** that can be rebuilt into a working ROM. This makes it surprisingly easy to:
 
-- modify NPC scripts  
+- modify mission scripts
 - add new dialogue  
-- change item rewards  
-- alter event triggers  
-- rebuild the game with `make`
+- add new items  
+- alter event triggers
 
-For a CTF challenge, this was perfect.
+And after all this, you can simply rebuild the game with `make`. For a CTF challenge, this was perfect.
 
 ---
 
