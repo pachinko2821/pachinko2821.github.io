@@ -1,15 +1,15 @@
 ---
 date: '2026-03-04T11:05:33+05:30'
 draft: false
-title: 'Building a Pokémon GBA CTF for Nullcon Winja CTF'
+title: 'Building a Custom Pokémon GBA ROM for Winja CTF'
 cover:
     image: "images/cover.png" 
     alt: "some image that didn't load"
-    caption: "modifying pokemon firered"
+    caption: "modifying pokémon firered"
     responsiveImages: false
-tags: ["ctf", "pokemon", "winja", "nullcon"]
-keywords: ["game", "gameboy", "ctf", "pokemon"]
-description: "Creating GBA pokemon CTF for Winja CTF NullCon"
+tags: ["ctf", "pokémon", "winja", "nullcon"]
+keywords: ["game", "gameboy", "ctf", "pokémon"]
+description: "Creating GBA pokémon CTF for Winja CTF NullCon"
 showFullContent: true
 readingTime: true
 showFullContent: true
@@ -19,8 +19,6 @@ tocOpen: true
 showReadingTime: true
 hideSummary: true
 ---
-
-# Building a Pokémon FireRed CTF Challenge for Nullcon Goa 2026
 
 For Winja CTF Nullcon Goa 2026, I wanted to build a challenge that felt a little different from the usual web, crypto, and reversing problems. Instead of presenting players with a traditional binary or web service, the idea was simple:
 
@@ -48,7 +46,7 @@ A full walkthrough of the challenge can be seen here:
 {{< rawhtml >}} 
 
 <video width=100% controls autoplay>
-    <source src="files/pokemon-firered-walkthrough.mkv" type="video/webm">
+    <source src="files/pokémon-firered-walkthrough.mkv" type="video/webm">
     Your browser does not support the video tag.  
 </video>
 
@@ -460,7 +458,7 @@ The solution was for players to:
 Since this is a Game Boy Advance ROM, players could use some tricks. This included things like:
 
 - Patching the ROM to remove restrictions
-- Using [cheats](https://www.pokemoncoders.com/pokemon-fire-red-gameshark-codes/)
+- Using [cheats](https://www.pokémoncoders.com/pokémon-fire-red-gameshark-codes/)
 
 One particularly easy shortcut was to teleport directly to the Cerulean Bike Shop using standard GBA cheat codes. This bypassed the gameplay entirely.
 
