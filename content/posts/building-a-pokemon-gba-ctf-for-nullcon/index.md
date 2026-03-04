@@ -6,7 +6,7 @@ cover:
     image: "images/cover.png" 
     alt: "some image that didn't load"
     caption: "hacking minesweeper"
-    responsiveImages: false
+    responsiveImages: true
 tags: ["ctf", "pokemon", "winja", "nullcon"]
 keywords: ["game", "gameboy", "ctf", "pokemon"]
 description: "Creating GBA pokemon CTF for Winja CTF NullCon"
