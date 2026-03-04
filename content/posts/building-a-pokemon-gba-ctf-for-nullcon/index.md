@@ -5,7 +5,7 @@ title: 'Building a Pokémon GBA CTF for Nullcon Winja CTF'
 cover:
     image: "images/cover.png" 
     alt: "some image that didn't load"
-    caption: "hacking minesweeper"
+    caption: "modifying pokemon firered"
     responsiveImages: false
 tags: ["ctf", "pokemon", "winja", "nullcon"]
 keywords: ["game", "gameboy", "ctf", "pokemon"]
