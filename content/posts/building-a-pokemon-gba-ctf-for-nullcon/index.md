@@ -12,8 +12,6 @@ keywords: ["game", "gameboy", "ctf", "pokémon"]
 description: "Creating GBA pokémon CTF for Winja CTF NullCon"
 showFullContent: true
 readingTime: true
-showFullContent: true
-readingTime: true
 showToc: true
 tocOpen: true
 showReadingTime: true

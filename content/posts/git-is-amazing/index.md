@@ -12,8 +12,6 @@ keywords: ["debugging", "git"]
 description: "Learning more about git, discovered one heck of a feature"
 showFullContent: true
 readingTime: true
-showFullContent: true
-readingTime: true
 showToc: true
 tocOpen: true
 showReadingTime: true

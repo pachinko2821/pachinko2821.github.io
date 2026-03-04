@@ -12,8 +12,6 @@ keywords: ["mobile", "android"]
 description: "Dominating minesweeper with Frida scripts"
 showFullContent: true
 readingTime: true
-showFullContent: true
-readingTime: true
 showToc: true
 tocOpen: true
 showReadingTime: true

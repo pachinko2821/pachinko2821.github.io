@@ -1,5 +1,5 @@
 ---
-date: '{{ .Date }}'
+date: '{{ page.date | date: "%Y-%m-%d" }}'
 draft: true
 title: '{{ replace .File.ContentBaseName `-` ` ` | title }}'
 cover:
@@ -10,8 +10,6 @@ cover:
 tags: ["tags"]
 keywords: ["keywords"]
 description: "DESCRIPTION"
-showFullContent: true
-readingTime: true
 showFullContent: true
 readingTime: true
 showToc: true
