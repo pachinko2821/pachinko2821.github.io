@@ -22,7 +22,7 @@ hideSummary: true
 
 - Built a custom Pokémon FireRed GBA ROM as a CTF challenge for Winja CTF NullCon 2026.
 - Players receive a patched ROM, solve simple in-game tasks to obtain an XOR‑encoded flag, and decode it with a key item.
-- The ROM was created by modifying the pret decompilation.
+- The ROM was created by modifying the [pret decompilation](https://pret.github.io/).
 - I talk about how and what was modified to make the CTF.
 
 # Building a Custom Pokémon GBA ROM for Winja CTF
